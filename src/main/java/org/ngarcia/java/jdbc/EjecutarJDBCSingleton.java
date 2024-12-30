@@ -35,6 +35,8 @@ public class EjecutarJDBCSingleton {
             Repositorio<Producto> repo = new ProductoRepositorio();
             repo.listar().forEach(System.out::println);
 
+            System.out.println(repo.porId(1L));
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

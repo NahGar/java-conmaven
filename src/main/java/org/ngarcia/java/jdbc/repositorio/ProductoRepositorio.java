@@ -37,12 +37,12 @@ public class ProductoRepositorio implements Repositorio<Producto> {
                 .prepareStatement("SELECT * FROM productos WHERE Id=?")) {
 
             stmt.setLong(1,id);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                producto = crearProducto(rs);
+            //autoclose rs
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    producto = crearProducto(rs);
+                }
             }
-            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -52,12 +52,47 @@ public class ProductoRepositorio implements Repositorio<Producto> {
 
     @Override
     public void guardar(Producto producto) {
+        String sql;
+        if(producto.getId() != null && producto.getId() > 0) {
+            sql = "UPDATE productos set nombre=?, precio=? " +
+                  "WHERE id=?";
+        }
+        else {
+            sql = "INSERT INTO productos(nombre,precio,fecha_registro) " +
+                    "VALUES (?,?,?)";
+        }
 
+        try (PreparedStatement stmt = getConnection()
+                .prepareStatement(sql)) {
+
+            stmt.setString(1,producto.getNombre());
+            stmt.setInt(2,producto.getPrecio());
+
+            if(producto.getId() != null && producto.getId() > 0) {
+                stmt.setLong(3,producto.getId());
+            }
+            else {
+                //convierte a java.sql
+                stmt.setDate(3, new Date(producto.getFecha_registro().getTime()));
+            }
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void eliminar(Long id) {
+        try (PreparedStatement stmt = getConnection()
+                .prepareStatement("DELETE FROM productos WHERE id=?")) {
 
+            stmt.setLong(1,id);
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
