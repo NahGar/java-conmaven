@@ -8,6 +8,7 @@ public class Producto {
     private String nombre;
     private Integer precio;
     private Date fecha_registro;
+    private Categoria categoria;
 
     public Producto() {
     }
@@ -51,8 +52,25 @@ public class Producto {
         this.fecha_registro = fecha_registro;
     }
 
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     @Override
     public String toString() {
-        return   String.format("%-3s",id) + " | " + String.format("%-10s",nombre) + " | " + String.format("%8s",precio) + " | " + fecha_registro;
+        String retorno = String.format("%-3s",id) + " | " +
+                String.format("%-20s",nombre) + " | " +
+                String.format("%8s",precio) + " | " +
+                fecha_registro;
+
+        if(this.categoria != null) {
+            retorno += " | " + categoria.getNombre();
+        }
+
+        return retorno;
     }
 }

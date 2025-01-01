@@ -5,13 +5,13 @@ import org.ngarcia.java.jdbc.repositorio.*;
 import org.ngarcia.java.jdbc.util.ConexionBaseDatos;
 
 import java.sql.*;
+import java.util.Date;
 import java.util.List;
 
 public class EjecutarJDBCSingleton {
     public static void main(String[] args) {
 
         //Simplificado con autoclose
-        /*
         try
         (Connection conn = ConexionBaseDatos.getInstance();
          Statement stmt = conn.createStatement();
@@ -27,18 +27,6 @@ public class EjecutarJDBCSingleton {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        */
 
-        // el connection en el try solo se usa para autoclose
-        try (Connection conn = ConexionBaseDatos.getInstance()) {
-
-            Repositorio<Producto> repo = new ProductoRepositorio();
-            repo.listar().forEach(System.out::println);
-
-            System.out.println(repo.porId(1L));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
