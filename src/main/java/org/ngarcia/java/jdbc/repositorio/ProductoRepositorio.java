@@ -58,9 +58,13 @@ public class ProductoRepositorio implements Repositorio<Producto> {
     }
 
     @Override
-    public void guardar(Producto producto) {
+    public Long guardar(Producto producto) {
+        
         String sql;
-        if(producto.getId() != null && producto.getId() > 0) {
+        Long generatedId = null;
+        boolean isUpdate = producto.getId() != null && producto.getId() > 0;
+        
+        if(isUpdate) {
             sql = "UPDATE productos set nombre=?, precio=?, categoria_id=? " +
                   "WHERE id=?";
         }
@@ -70,13 +74,13 @@ public class ProductoRepositorio implements Repositorio<Producto> {
         }
 
         try (PreparedStatement stmt = getConnection()
-                .prepareStatement(sql)) {
+                .prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1,producto.getNombre());
             stmt.setInt(2,producto.getPrecio());
             stmt.setLong(3,producto.getCategoria().getId());
 
-            if(producto.getId() != null && producto.getId() > 0) {
+            if(isUpdate) {
                 stmt.setLong(4,producto.getId());
             }
             else {
@@ -84,11 +88,22 @@ public class ProductoRepositorio implements Repositorio<Producto> {
                 stmt.setDate(4, new Date(producto.getFecha_registro().getTime()));
             }
 
-            stmt.executeUpdate();
-
+            int affectedRows = stmt.executeUpdate();
+            
+            // Obtener el ID generado si es un INSERT
+            if (!isUpdate && affectedRows > 0) {
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        generatedId = generatedKeys.getLong(1);
+                    }
+                }
+            }   
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        
+        return generatedId;
     }
 
     @Override
