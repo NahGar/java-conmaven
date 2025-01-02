@@ -8,6 +8,7 @@ import org.ngarcia.java.jdbc.util.ConexionBaseDatos;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
+import org.ngarcia.java.jdbc.modelo.Categoria;
 
 public class EjecutarJDBCCRUD {
     public static void main(String[] args) {
@@ -27,18 +28,23 @@ public class EjecutarJDBCCRUD {
             producto.setNombre("Teclado mecánico");
             producto.setPrecio(5000);
             producto.setFecha_registro(new Date());
+            
+            Categoria categoria = new Categoria();
+            categoria.setId(4L);
+            producto.setCategoria(categoria);
+            
             repo.guardar(producto);
             repo.listar().forEach(System.out::println);
 
             System.out.println("---------- update ----------");
-            producto.setId(3L);
+            producto.setId(4L);
             producto.setNombre("Mouse");
             producto.setPrecio(3000);
             repo.guardar(producto);
             repo.listar().forEach(System.out::println);
 
             System.out.println("---------- delete ----------");
-            repo.eliminar(3L);
+            repo.eliminar(4L);
             repo.listar().forEach(System.out::println);
 
         } catch (SQLException e) {

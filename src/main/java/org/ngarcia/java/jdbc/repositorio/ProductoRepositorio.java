@@ -37,7 +37,7 @@ public class ProductoRepositorio implements Repositorio<Producto> {
         Producto producto = null;
 
         String sql = "SELECT p.*, c.nombre as categoria FROM productos as p " +
-                     "INNER JOIN categorias as c ON (p.categoria_id = c.id) WHERE Id=?";
+                     "INNER JOIN categorias as c ON (p.categoria_id = c.id) WHERE p.Id=?";
 
         //autoclose de stmt y rs
         try (PreparedStatement stmt = getConnection()
