@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexionBaseDatos {
+public class ConexionBaseDatosNoSingleton {
 
     private static String url = "jdbc:mysql://localhost:3307/java_curso?serverTimezone=America/Montevideo";
     private static String user = "root";
@@ -12,10 +12,6 @@ public class ConexionBaseDatos {
     private static Connection connection;
 
     public static Connection getInstance() throws SQLException {
-        if(connection == null) {
-            connection = DriverManager.getConnection(url,user,pass);
-        }
-        return connection;
+        return DriverManager.getConnection(url,user,pass);
     }
-
 }

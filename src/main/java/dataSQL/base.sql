@@ -69,6 +69,18 @@ LOCK TABLES `productos` WRITE;
 INSERT INTO `productos` VALUES (1,'Bicicleta',200,'2024-12-12 00:00:00',1),(2,'TV Smart',400,'2024-12-13 00:00:00',2),(3,'Teclado mecánico',100,'2024-12-14 00:00:00',3);
 /*!40000 ALTER TABLE `productos` ENABLE KEYS */;
 UNLOCK TABLES;
+
+CREATE TABLE `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(12) DEFAULT NULL,
+  `password` varchar(60) DEFAULT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB
+
+INSERT INTO `java_curso`.`usuarios` (`username`, `password`, `email`) VALUES ('root', 'root', 'root@root.com');
+
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
