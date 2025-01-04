@@ -1,19 +1,15 @@
 package org.ngarcia.java.jdbc;
 
-import org.ngarcia.java.jdbc.modelo.Producto;
-import org.ngarcia.java.jdbc.repositorio.*;
-import org.ngarcia.java.jdbc.util.ConexionBaseDatos;
+import org.ngarcia.java.jdbc.util.ConexionBaseDatosSingleton;
 
 import java.sql.*;
-import java.util.Date;
-import java.util.List;
 
 public class EjecutarJDBCSingleton {
     public static void main(String[] args) {
 
         //Simplificado con autoclose
         try
-        (Connection conn = ConexionBaseDatos.getInstance();
+        (Connection conn = ConexionBaseDatosSingleton.getInstance();
          Statement stmt = conn.createStatement();
          ResultSet result = stmt.executeQuery("SELECT * FROM productos")) {
 

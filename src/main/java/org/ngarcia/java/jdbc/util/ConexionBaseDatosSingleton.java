@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConexionBaseDatos {
+public class ConexionBaseDatosSingleton {
 
     private static String url = "jdbc:mysql://localhost:3307/java_curso?serverTimezone=America/Montevideo";
     private static String user = "root";

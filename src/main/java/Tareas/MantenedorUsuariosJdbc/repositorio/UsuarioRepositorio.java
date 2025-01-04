@@ -110,7 +110,7 @@ public class UsuarioRepositorio implements Repositorio<Usuario>{
     }
 
     private Connection getConn() throws SQLException {
-        return ConexionBaseDatos.getInstance();
+        return ConexionBaseDatosSingleton.getInstance();
     }
 
 }

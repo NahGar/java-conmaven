@@ -3,7 +3,7 @@ package org.ngarcia.java.jdbc;
 import org.ngarcia.java.jdbc.modelo.Producto;
 import org.ngarcia.java.jdbc.repositorio.ProductoRepositorio;
 import org.ngarcia.java.jdbc.repositorio.Repositorio;
-import org.ngarcia.java.jdbc.util.ConexionBaseDatos;
+import org.ngarcia.java.jdbc.util.ConexionBaseDatosSingleton;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -13,9 +13,8 @@ import org.ngarcia.java.jdbc.modelo.Categoria;
 public class EjecutarJDBCCRUD {
     public static void main(String[] args) {
 
-
         // el connection en el try solo se usa para autoclose
-        try (Connection conn = ConexionBaseDatos.getInstance()) {
+        try (Connection conn = ConexionBaseDatosSingleton.getInstance()) {
 
             Repositorio<Producto> repo = new ProductoRepositorio();
             System.out.println("---------- listar ----------");

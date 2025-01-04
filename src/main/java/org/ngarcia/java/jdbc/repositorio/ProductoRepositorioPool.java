@@ -2,13 +2,13 @@ package org.ngarcia.java.jdbc.repositorio;
 
 import org.ngarcia.java.jdbc.modelo.Categoria;
 import org.ngarcia.java.jdbc.modelo.Producto;
-import org.ngarcia.java.jdbc.util.ConexionBaseDatosSingleton;
+import org.ngarcia.java.jdbc.util.ConexionBaseDatosPool;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductoRepositorio implements Repositorio<Producto> {
+public class ProductoRepositorioPool implements Repositorio<Producto> {
 
     @Override
     public List<Producto> listar() {
@@ -121,7 +121,7 @@ public class ProductoRepositorio implements Repositorio<Producto> {
 
 
     private Connection getConnection() throws SQLException {
-        return ConexionBaseDatosSingleton.getInstance();
+        return ConexionBaseDatosPool.getConnection();
     }
 
     private static Producto crearProducto(ResultSet rs) throws SQLException {
