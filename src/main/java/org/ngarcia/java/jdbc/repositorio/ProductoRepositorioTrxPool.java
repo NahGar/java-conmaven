@@ -1,14 +1,19 @@
 package org.ngarcia.java.jdbc.repositorio;
 
-import org.ngarcia.java.jdbc.modelo.Categoria;
-import org.ngarcia.java.jdbc.modelo.Producto;
+import org.ngarcia.java.jdbc.modelo.*;
 import org.ngarcia.java.jdbc.util.ConexionBaseDatosSingletonTrx;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductoRepositorioTrx implements RepositorioTrx<Producto> {
+public class ProductoRepositorioTrxPool implements RepositorioTrx<Producto> {
+
+    private Connection conn;
+
+    public ProductoRepositorioTrxPool(Connection conn) {
+        this.conn = conn;
+    }
 
     @Override
     public List<Producto> listar() throws SQLException {
@@ -18,7 +23,7 @@ public class ProductoRepositorioTrx implements RepositorioTrx<Producto> {
                 "INNER JOIN categorias as c ON (p.categoria_id = c.id)";
 
         //autoclose de stmt y rs
-        try(Statement stmt = getConnection().createStatement();
+        try(Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -40,8 +45,7 @@ public class ProductoRepositorioTrx implements RepositorioTrx<Producto> {
                      "INNER JOIN categorias as c ON (p.categoria_id = c.id) WHERE p.Id=?";
 
         //autoclose de stmt y rs
-        try (PreparedStatement stmt = getConnection()
-                .prepareStatement(sql)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setLong(1,id);
             //autoclose rs
@@ -73,8 +77,7 @@ public class ProductoRepositorioTrx implements RepositorioTrx<Producto> {
                     ",fecha_registro) VALUES (?,?,?,?,?)";
         }
 
-        try (PreparedStatement stmt = getConnection()
-                .prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, producto.getNombre());
             stmt.setInt(2, producto.getPrecio());
@@ -110,8 +113,7 @@ public class ProductoRepositorioTrx implements RepositorioTrx<Producto> {
 
     @Override
     public void eliminar(Long id) throws SQLException {
-        try (PreparedStatement stmt = getConnection()
-                .prepareStatement("DELETE FROM productos WHERE id=?")) {
+        try (PreparedStatement stmt = conn.prepareStatement("DELETE FROM productos WHERE id=?")) {
 
             stmt.setLong(1,id);
             stmt.executeUpdate();
