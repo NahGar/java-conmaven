@@ -8,11 +8,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductoRepositorioTrxPool implements RepositorioTrx<Producto> {
+public class ProductoRepositorioTrxServicio implements RepositorioTrxServicio<Producto> {
 
     private Connection conn;
 
-    public ProductoRepositorioTrxPool(Connection conn) {
+    public ProductoRepositorioTrxServicio() {}
+
+    public ProductoRepositorioTrxServicio(Connection conn) {
         this.conn = conn;
     }
 
@@ -31,8 +33,6 @@ public class ProductoRepositorioTrxPool implements RepositorioTrx<Producto> {
                 Producto producto = crearProducto(rs);
                 productos.add(producto);
             }
-        //} catch (SQLException e) {
-        //    e.printStackTrace();
         }
         return productos;
     }
@@ -55,10 +55,7 @@ public class ProductoRepositorioTrxPool implements RepositorioTrx<Producto> {
                     producto = crearProducto(rs);
                 }
             }
-        //} catch (SQLException e) {
-        //    e.printStackTrace();
         }
-
         return producto;
     }
 
@@ -106,9 +103,6 @@ public class ProductoRepositorioTrxPool implements RepositorioTrx<Producto> {
                     }
                 }
             }   
-            
-        //} catch (SQLException e) {
-        //    e.printStackTrace();
         }
         
         return generatedId;
@@ -120,9 +114,6 @@ public class ProductoRepositorioTrxPool implements RepositorioTrx<Producto> {
 
             stmt.setLong(1,id);
             stmt.executeUpdate();
-
-        //} catch (SQLException e) {
-        //    e.printStackTrace();
         }
     }
 
@@ -130,6 +121,9 @@ public class ProductoRepositorioTrxPool implements RepositorioTrx<Producto> {
         return ConexionBaseDatosSingletonTrx.getInstance();
     }
 
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
 
     private static Producto crearProducto(ResultSet rs) throws SQLException {
         Producto producto = new Producto();

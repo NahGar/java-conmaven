@@ -7,11 +7,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoriaRepositorio implements RepositorioTrx<Categoria>{
+public class CategoriaRepositorioTrxServicio implements RepositorioTrxServicio<Categoria>{
 
     private Connection conn;
 
-    public CategoriaRepositorio(Connection conn) {
+    public CategoriaRepositorioTrxServicio() {}
+
+    public CategoriaRepositorioTrxServicio(Connection conn) {
         this.conn = conn;
     }
 
@@ -98,6 +100,14 @@ public class CategoriaRepositorio implements RepositorioTrx<Categoria>{
             stmt.setLong(1, id);
             stmt.executeUpdate();
         }
+    }
+
+    public Connection getConn() {
+        return conn;
+    }
+
+    public void setConn(Connection conn) {
+        this.conn = conn;
     }
 
     private static Categoria crearCategoria(ResultSet rs) throws SQLException {

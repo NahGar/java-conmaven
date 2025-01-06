@@ -31,8 +31,6 @@ public class EjecutarJDBCSingletonTrxPool {
                 categoria = repoCat.porId(1L);
                 System.out.println(categoria);
 
-                ResetAutoIncrement.exec(conn,"categorias");
-
                 System.out.println("---------- insertar categoria ----------");
                 categoria = new Categoria();
                 categoria.setNombre("Ropa");
@@ -49,8 +47,6 @@ public class EjecutarJDBCSingletonTrxPool {
                 System.out.println("---------- obtener por id ----------");
                 System.out.println(repoProd.porId(1L));
 
-                ResetAutoIncrement.exec(conn,"productos");
-
                 System.out.println("---------- insert ----------");
                 Producto producto = new Producto();
                 producto.setNombre("Polera");
@@ -66,7 +62,7 @@ public class EjecutarJDBCSingletonTrxPool {
                 producto.setNombre("Polera roja");
                 producto.setPrecio(3000);
                 //producto.setSku("abc"); //ya existe (error hace rollback)
-                producto.setSku("abc123"); //no existe
+                producto.setSku("abc1234"); //no existe
                 repoProd.guardar(producto);
 
                 repoProd.listar().forEach(System.out::println);
