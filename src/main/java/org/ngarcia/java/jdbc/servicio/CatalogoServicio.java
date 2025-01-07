@@ -1,7 +1,6 @@
 package org.ngarcia.java.jdbc.servicio;
 
-import org.ngarcia.java.jdbc.modelo.Categoria;
-import org.ngarcia.java.jdbc.modelo.Producto;
+import org.ngarcia.java.jdbc.modelo.*;
 import org.ngarcia.java.jdbc.repositorio.*;
 import org.ngarcia.java.jdbc.util.ConexionBaseDatosPool;
 
@@ -124,6 +123,10 @@ public class CatalogoServicio implements Servicio {
 
             if(conn.getAutoCommit()) { conn.setAutoCommit(false); }
             try {
+                Long catId = categoriaRepositorio.guardar(categoria);
+                categoria.setId(catId);
+                producto.setCategoria(categoria);
+                Long prodId = productoRepositorio.guardar(producto);
                 conn.commit();
             } catch (SQLException e) {
                 conn.rollback();

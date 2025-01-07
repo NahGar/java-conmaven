@@ -62,7 +62,7 @@ public class CategoriaRepositorioTrxServicio implements RepositorioTrxServicio<C
             sql = "UPDATE categorias set nombre=? WHERE id=?";
         }
         else {
-            ResetAutoIncrement.exec(conn,"categorias");
+            ResetAutoIncrement.exec("categorias");
 
             sql = "INSERT INTO categorias(nombre) VALUES (?)";
         }

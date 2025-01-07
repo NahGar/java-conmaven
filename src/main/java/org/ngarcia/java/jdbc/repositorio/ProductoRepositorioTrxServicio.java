@@ -71,7 +71,7 @@ public class ProductoRepositorioTrxServicio implements RepositorioTrxServicio<Pr
                   "WHERE id=?";
         }
         else {
-            ResetAutoIncrement.exec(conn,"productos");
+            ResetAutoIncrement.exec("productos");
 
             sql = "INSERT INTO productos(nombre,precio,categoria_id,sku" +
                     ",fecha_registro) VALUES (?,?,?,?,?)";

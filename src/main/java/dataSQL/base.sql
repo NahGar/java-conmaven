@@ -54,6 +54,7 @@ CREATE TABLE `productos` (
   `precio` int DEFAULT NULL,
   `fecha_registro` datetime DEFAULT NULL,
   `categoria_id` int DEFAULT NULL,
+  `sku` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `id_idx` (`categoria_id`),
   CONSTRAINT `productoscategorias` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`)
